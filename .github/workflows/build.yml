@@ -22,7 +22,7 @@ jobs:
           message: ${{ github.event.head_commit.message }}
         run: |
           if (!($message -like "v*")) {
-              gh run cancel ${{ github.run_id }}
+              exit 1
           }
       - name: Rust setup
         uses: dtolnay/rust-toolchain@stable

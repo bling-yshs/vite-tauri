@@ -21,7 +21,7 @@ jobs:
         env:
           message: ${{ github.event.head_commit.message }}
         run: |
-          if ($message -like "v*") {
+          if (!($message -like "v*")) {
               exit 1
           }
       - name: Rust setup

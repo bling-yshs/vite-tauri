@@ -2,8 +2,6 @@ name: Release
 run-name: "✨ 发布正式版: (${{ github.event.head_commit.message }})"
 on:
   push:
-    tags:
-      - "v*"
   workflow_dispatch:
 
 concurrency:
@@ -19,6 +17,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check if commit starts with 'v'
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=%s)
+          if [[ $COMMIT_MESSAGE != v* ]]; then
+            echo "Commit does not start with 'v'. Skipping further steps."
+            exit 1
+          fi
       - name: Rust setup
         uses: dtolnay/rust-toolchain@stable
 
